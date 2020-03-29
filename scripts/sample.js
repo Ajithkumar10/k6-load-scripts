@@ -3,9 +3,16 @@ import { sleep, check } from "k6";
 export let options = {
     stages: [
         {duration:'30s',target:1},
-        {duration:'1m30s',target:5},
+        {duration:'30s',target:5},
         {duration:'10s',target:0},
     ],
+    thresholds: {
+        // Declare a threshold over all HTTP response times,
+        // the 95th percentile should not cross 500ms
+        http_req_duration: ["p(95)<500"]
+
+    
+    }
 };
 export default function() {
 let res = http.get('http://test.k6.io');
